@@ -6,14 +6,29 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York
+      # Display: default virtual framebuffer is 15360x8640 and is very CPU-heavy in X11 mode.
+      - SELKIES_MANUAL_WIDTH=1280
+      - SELKIES_MANUAL_HEIGHT=720
+      - MAX_RES=1280x720
+      - SELKIES_FRAMERATE=30
+      - SELKIES_ENCODER=jpeg
+      # Disable streaming features you do not need (each adds background work).
+      - SELKIES_AUDIO_ENABLED=True
+      - SELKIES_MICROPHONE_ENABLED=False
+      - SELKIES_GAMEPAD_ENABLED=False
+      - SELKIES_SECOND_SCREEN=False
+      - SELKIES_ENABLE_SHARING=False
+      # Fewer Chromium processes and background tasks; ExpressVPN extension still works.
+      - BRAVE_CLI=--disable-background-networking --disable-sync --disable-component-update --disable-features=Translate,MediaRouter,IsolateOrigins,site-per-process --process-per-site
     ports:
       - 8123:3000   # noVNC — http://localhost:8123
       - 8124:3001   # HTTPS UI — https://localhost:8124
-    shm_size: "2gb"
+    shm_size: "1gb"
     volumes:
       - ./brave-data:/config
-    restart: always
+    restart: unless-stopped
     deploy:
       resources:
         limits:
-          cpus: "1"
+          cpus: "0.75"
+          memory: 2G
