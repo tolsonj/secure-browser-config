@@ -1,0 +1,19 @@
+services:
+  brave-browser:
+    image: lscr.io/linuxserver/brave:latest
+    container_name: brave-browser
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    ports:
+      - 8123:3000   # noVNC — http://localhost:8123
+      - 8124:3001   # HTTPS UI — https://localhost:8124
+    shm_size: "2gb"
+    volumes:
+      - ./brave-data:/config
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
