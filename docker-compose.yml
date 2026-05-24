@@ -11,7 +11,7 @@ services:
       - SELKIES_MANUAL_HEIGHT=720
       - MAX_RES=1280x720
       - SELKIES_FRAMERATE=30
-      - SELKIES_ENCODER=jpeg
+      # Default H.264 encoder (better for video than jpeg).
       # Disable streaming features you do not need (each adds background work).
       - SELKIES_AUDIO_ENABLED=True
       - SELKIES_MICROPHONE_ENABLED=False
@@ -30,5 +30,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.75"
+          cpus: "2.0"
           memory: 2G
